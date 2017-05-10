@@ -51,9 +51,9 @@ for row in dataset:
         row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
 
 # X stores inputs
-X = dataset[:,0:8]
+X = dataset[:,0:9]
 # Y stores output
-Y = dataset[:,8]
+Y = dataset[:,9]
 print(X[0])
 # dataset partitioned into 75% training, 25% testing
 validation_size = 0.25
