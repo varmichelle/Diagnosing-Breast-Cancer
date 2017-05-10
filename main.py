@@ -2,6 +2,7 @@ from random import seed, randrange
 from math import exp
 from sklearn import cross_validation
 import pandas
+import numpy
 
 # Make a prediction with coefficients
 def predict(row, coefficients):
@@ -24,23 +25,21 @@ def gradient_descent(X_train, Y_train, l_rate, n_epoch):
 
 # Linear Regression Algorithm
 def logistic_regression(X_validation, l_rate, n_epoch, coefficients):
-	predictions = list()
+    predictions = list()
     # make predictions (validate)
-	for row in X_validation:
-		y_pred = round(predict(row, coefficients))
-		predictions.append(y_pred)
-	return(predictions)
+    for row in X_validation:
+        y_pred = round(predict(row, coefficients))
+        predictions.append(y_pred)
+    return(predictions)
 
 # load dataset
 filename = "data.csv"
-dataset = pandas.read_csv(filename).values
+dataset = pandas.read_csv(filename, dtype=numpy.float32).values
 
 # find max and min to normalize
 minmax = list()
 for i in range(len(dataset[0])):
     col_values = [row[i] for row in dataset]
-    for cell in col_values:
-        cell = int(cell)
     value_min = min(col_values)
     value_max = max(col_values)
     minmax.append([value_min, value_max])
@@ -54,7 +53,6 @@ for row in dataset:
 X = dataset[:,0:9]
 # Y stores output
 Y = dataset[:,9]
-print(X[0])
 # dataset partitioned into 75% training, 25% testing
 validation_size = 0.25
 X_train, X_validation, Y_train, Y_validation = cross_validation.train_test_split(X, Y, test_size = validation_size, random_state = 1)
