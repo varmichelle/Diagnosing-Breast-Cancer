@@ -1,8 +1,8 @@
-from random import seed, randrange
-from math import exp
-from sklearn import cross_validation
-import pandas
-import numpy
+# import all needed libraries
+from math import exp # exponentiation for the sigmoid function
+from sklearn import cross_validation # split dataset into train and test
+import pandas # read CSV files (dataset)
+import numpy # linear algebra / calculus project
 
 # Make a prediction with coefficients
 def predict(row, coefficients):
@@ -13,8 +13,8 @@ def predict(row, coefficients):
 
 # Estimate logistic regression coefficients using stochastic gradient descent
 def gradient_descent(X_train, Y_train, l_rate, n_epoch):
-	coefficients = [0.0 for i in range(len(X_train[0])+1)]
-	for epoch in range(n_epoch):
+	coefficients = [0.0 for i in range(len(X_train[0])+1)] # initialize coefficients with 0 (temporary)
+	for epoch in range(n_epoch): # epoch = number of times to iterate over training set
 		for row_ind in range(len(X_train)):
 			y_pred = predict(X_train[row_ind], coefficients)
 			error = Y_train[row_ind] - y_pred
@@ -71,3 +71,4 @@ for i in range(len(Y_validation)):
         correct += 1
 
 print('Accuracy:', correct / float(len(Y_validation)) * 100.0)
+print(coefficients)
