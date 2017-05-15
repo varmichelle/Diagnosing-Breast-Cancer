@@ -15,39 +15,26 @@ def predict(row, coefficients):
 def gradient_descent(X_train, Y_train, l_rate, n_epoch):
 	coefficients = [0.0 for i in range(len(X_train[0])+1)] # initialize coefficients with 0 (temporary)
 	for epoch in range(n_epoch): # epoch = number of times to iterate over training set
-		for row_ind in range(len(X_train)):
-			y_pred = predict(X_train[row_ind], coefficients)
-			error = Y_train[row_ind] - y_pred
-			coefficients[0] = coefficients[0] + l_rate * error * y_pred * (1.0 - y_pred)
-			for i in range(len(X_train[row_ind])):
-				coefficients[i + 1] = coefficients[i + 1] + l_rate * error * y_pred * (1.0 - y_pred) * X_train[row_ind][i]
-	return coefficients
+		for row_ind in range(len(X_train)): # loop over each training instance (row)
+			y_pred = predict(X_train[row_ind], coefficients) # use sigmoid function to predict presence of breast cancer
+			error = Y_train[row_ind] - y_pred # compute error (difference between prediction and actual value)
+			coefficients[0] = coefficients[0] + l_rate * error * y_pred * (1.0 - y_pred) # update bias with gradient descent
+			for i in range(len(X_train[row_ind])): # loop over other constants
+				coefficients[i + 1] = coefficients[i + 1] + l_rate * error * y_pred * (1.0 - y_pred) * X_train[row_ind][i] # update constant with gradient descent
+	return coefficients # return computed coefficients
 
 # Linear Regression Algorithm
-def logistic_regression(X_validation, l_rate, n_epoch, coefficients):
-    predictions = list()
+def logistic_regression(X_validation, l_rate, n_epoch, coefficients): # define a function to test the algorithm
+    predictions = list() # create an empty list to store predictions
     # make predictions (validate)
-    for row in X_validation:
-        y_pred = round(predict(row, coefficients))
-        predictions.append(y_pred)
-    return(predictions)
+    for row in X_validation: # loop over each testing instance
+        y_pred = round(predict(row, coefficients)) # rounded prediction
+        predictions.append(y_pred) # add it to prediction list
+    return(predictions) # return prediction list
 
 # load dataset
 filename = "data.csv"
 dataset = pandas.read_csv(filename, dtype=numpy.float32).values
-
-# find max and min to normalize
-minmax = list()
-for i in range(len(dataset[0])):
-    col_values = [row[i] for row in dataset]
-    value_min = min(col_values)
-    value_max = max(col_values)
-    minmax.append([value_min, value_max])
-
-# normalize values
-for row in dataset:
-    for i in range(len(row)):
-        row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
 
 # X stores inputs
 X = dataset[:,0:9]
