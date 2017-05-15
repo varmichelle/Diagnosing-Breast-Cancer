@@ -3,12 +3,13 @@ from math import exp # exponentiation for the sigmoid function
 from sklearn import cross_validation # split dataset into train and test
 import pandas # read CSV files (dataset)
 import numpy # linear algebra / calculus project
+from flask import Flask, request, render_template # python web framework
 
 # Make a prediction with coefficients
-def predict(row, coefficients):
+def predict(features, coefficients):
 	u = coefficients[0] # bias (constant term)
-	for i in range(len(row)-1):
-		u += coefficients[i + 1] * row[i] # c_i * x_i
+	for i in range(len(features)-1):
+		u += coefficients[i + 1] * features[i] # c_i * x_i
 	return 1.0 / (1.0 + exp(-u)) # sigmoid function
 
 # Estimate logistic regression coefficients using stochastic gradient descent
@@ -57,5 +58,33 @@ for i in range(len(Y_validation)):
     if Y_validation[i] == predictions[i]:
         correct += 1
 
-print('Accuracy:', correct / float(len(Y_validation)) * 100.0)
-print(coefficients)
+# Print statistics
+# print('Accuracy:', correct / float(len(Y_validation)) * 100.0)
+# print(coefficients)
+
+# set up website
+app = Flask(__name__)
+# route for the input form
+@app.route("/")
+def form():
+	return render_template("index.html")
+
+# process the data
+@app.route("/", methods=["POST"])
+def form_post():
+	clumpThickness = request.form.get("clumpThickness")
+	cellSize = request.form.get("cellSize")
+	cellShape = request.form.get("cellShape")
+	marginalAdhesion = request.form.get("marginalAdhesion")
+	epithelialCellSize = request.form.get("epithelialCellSize")
+	bareNuclei = request.form.get("bareNuclei")
+	chromatin = request.form.get("chromatin")
+	nucleoli = request.form.get("nucleoli")
+	mitoses = request.form.get("mitoses")
+	data = {
+		"results": predict(clumpThickness, cellSize, cellShape, marginalAdhesion, epithelialCellSize, bareNuclei, chromatin, nucleoli, mitoses)
+	}
+	return render_template("index.html",**data)
+
+# run the website
+app.run()

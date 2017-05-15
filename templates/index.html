@@ -1,0 +1,72 @@
+<h1>Using Machine Learning to Diagnose Breast Cancer</h1>
+<h2> By: Gaby Escobar, Hrishika Basava, and Michelle Li</h2>
+
+<body>
+    <form action = "." method = "POST">
+    <p>Input integer values from 1-10</p>
+    <p>Clump Thickness:
+        <input type = "number"
+           id = "clumpThickness"
+           min = "1"
+           max = "10">
+    </p>
+
+    <p>Uniformity of Cell Size:
+        <input type = "number"
+           id = "cellSize"
+           min = "1"
+           max = "10">
+    </p>
+
+    <p>Uniformity of Cell Shape:
+        <input type = "number"
+           id = "cellShape"
+           min = "1"
+           max = "10">
+    </p>
+
+    <p>Marginal Adhesion:
+           <input type = "number"
+           id = "marginalAdhesion"
+           min = "1"
+           max = "10">
+    </p>
+    <p>Single Epithelial Cell Size:
+           <input type = "number"
+           id = "epithelialCellSize"
+           min = "1"
+           max = "10">
+    </p>
+    <p>Bare Nuclei:
+           <input type = "number"
+           id = "bareNuclei"
+           min = "1"
+           max = "10">
+    </p>
+    <p>Bland Chromatin:
+           <input type = "number"
+           id = "chromatin"
+           min = "1"
+           max = "10">
+    </p>
+    <p>Normal Nucleoli:
+           <input type = "number"
+           id = "nucleoli"
+           min = "1"
+           max = "10">
+    </p>
+    <p>Mitoses:
+           <input type = "number"
+           id = "mitoses"
+           min = "1"
+           max = "10">
+    </p>
+
+    <input type= "submit" value = "Submit">
+
+    </form>
+
+    <h2>Diagnosis Results</h2>
+    <p>Model Prediction: {{results}}</p>
+
+</body>
