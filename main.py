@@ -82,9 +82,17 @@ def form_post():
 	chromatin = float(request.form.get("chromatin"))
 	nucleoli = float(request.form.get("nucleoli"))
 	mitoses = float(request.form.get("mitoses"))
+	prediction = predict([clumpThickness, cellSize, cellShape, marginalAdhesion, epithelialCellSize, bareNuclei, chromatin, nucleoli, mitoses], coefficients)
+	rounded = round(prediction)
+	result = "Negative"
+	if (rounded == 1):
+		result = "Positive"
 	data = {
-		"title": "Diagnosis Results",
-		"results": "Model prediction: " + str(round(predict([clumpThickness, cellSize, cellShape, marginalAdhesion, epithelialCellSize, bareNuclei, chromatin, nucleoli, mitoses], coefficients), 5))
+		"title": "Results",
+		"diagnosisText": "Diagnosis: ",
+		"diagnosis": str(result),
+		"predictionText": "Model Prediction: ",
+		"result": str(round(prediction, 5))
 	}
 	return render_template("index.html",**data)
 
