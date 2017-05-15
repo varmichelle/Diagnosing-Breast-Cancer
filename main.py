@@ -73,16 +73,20 @@ def form():
 @app.route("/", methods=["POST"])
 def form_post():
 	clumpThickness = request.form.get("clumpThickness")
-	cellSize = request.form.get("cellSize")
-	cellShape = request.form.get("cellShape")
-	marginalAdhesion = request.form.get("marginalAdhesion")
-	epithelialCellSize = request.form.get("epithelialCellSize")
-	bareNuclei = request.form.get("bareNuclei")
-	chromatin = request.form.get("chromatin")
-	nucleoli = request.form.get("nucleoli")
-	mitoses = request.form.get("mitoses")
+	# clumpThickness = request.form["clumpThickness"]
+	# clumpThickness = float(request.form.get("clumpThickness"))
+	# cellSize = float(request.form.get("cellSize"))
+	# cellShape = float(request.form.get("cellShape"))
+	# marginalAdhesion = float(request.form.get("marginalAdhesion"))
+	# epithelialCellSize = float(request.form.get("epithelialCellSize"))
+	# bareNuclei = float(request.form.get("bareNuclei"))
+	# chromatin = float(request.form.get("chromatin"))
+	# nucleoli = float(request.form.get("nucleoli"))
+	# mitoses = float(request.form.get("mitoses"))
 	data = {
-		"results": predict(clumpThickness, cellSize, cellShape, marginalAdhesion, epithelialCellSize, bareNuclei, chromatin, nucleoli, mitoses)
+		"title": "Diagnosis Results",
+		"results": clumpThickness
+		#"results": "Model prediction: " + predict([clumpThickness, cellSize, cellShape, marginalAdhesion, epithelialCellSize, bareNuclei, chromatin, nucleoli, mitoses], coefficients)
 	}
 	return render_template("index.html",**data)
 
