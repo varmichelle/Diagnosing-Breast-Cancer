@@ -5,14 +5,14 @@ import pandas # read CSV files (dataset)
 import numpy # linear algebra / calculus project
 from flask import Flask, request, render_template # python web framework
 
-# Make a prediction with coefficients
+# Prediction
 def predict(features, coefficients):
 	u = coefficients[0] # bias (constant term)
 	for i in range(len(features)-1):
 		u += coefficients[i + 1] * features[i] # c_i * x_i
 	return 1.0 / (1.0 + exp(-u)) # sigmoid function
 
-# Estimate logistic regression coefficients using stochastic gradient descent
+# Training
 def gradient_descent(X_train, Y_train, l_rate, n_epoch):
 	coefficients = [0.0 for i in range(len(X_train[0])+1)] # initialize coefficients with 0 (temporary)
 	for epoch in range(n_epoch): # epoch = number of times to iterate over training set
@@ -24,7 +24,7 @@ def gradient_descent(X_train, Y_train, l_rate, n_epoch):
 				coefficients[i + 1] = coefficients[i + 1] + l_rate * error * y_pred * (1.0 - y_pred) * X_train[row_ind][i] # update constant with gradient descent
 	return coefficients # return computed coefficients
 
-# Linear Regression Algorithm
+# Validation
 def logistic_regression(X_validation, l_rate, n_epoch, coefficients): # define a function to test the algorithm
     predictions = list() # create an empty list to store predictions
     # make predictions (validate)
@@ -58,9 +58,9 @@ for i in range(len(Y_validation)):
     if Y_validation[i] == predictions[i]:
         correct += 1
 
-# Print statistics
-# print('Accuracy:', correct / float(len(Y_validation)) * 100.0)
-# print(coefficients)
+Print statistics
+print('Accuracy:', correct / float(len(Y_validation)) * 100.0)
+print(coefficients)
 
 # set up website
 app = Flask(__name__)
